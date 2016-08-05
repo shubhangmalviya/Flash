@@ -1,0 +1,8 @@
+rootProject.name = 'Flash'
+
+include 'processor'
+
+include 'annotation'
+
+include 'app'
+
