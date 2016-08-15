@@ -2,7 +2,7 @@ package com.flash;
 
 import javax.swing.*;
 
-public class FlashUI {
+public class ServiceLayerGenerator {
 
     private JTextField mTextFieldPathPostmanCollection;
     private JButton mBtnChoosePostmanCollection;
@@ -24,7 +24,16 @@ public class FlashUI {
     private JRadioButton mNoRadioButton2;
     private JTextField mTextField6;
     private JButton mGenerateSourceButton;
+    private JPanel mJPanelMain;
 
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("ServiceLayerGenerator");
+        frame.setContentPane(new ServiceLayerGenerator().mJPanelMain);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 
     public void setData(Flash data) {
     }

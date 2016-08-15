@@ -6,3 +6,5 @@ include 'annotation'
 
 include 'app'
 
+include 'logic'
+
