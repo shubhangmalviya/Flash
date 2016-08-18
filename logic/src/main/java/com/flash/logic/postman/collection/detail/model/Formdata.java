@@ -1,9 +1,9 @@
-package com.flash.logic.postman.collection.detail;
+package com.flash.logic.postman.collection.detail.model;
 
 import com.google.gson.annotations.SerializedName;
 
 
-public class Urlencoded{
+public class Formdata {
 
     private static final String FIELD_KEY = "key";
     private static final String FIELD_ENABLED = "enabled";
@@ -15,13 +15,12 @@ public class Urlencoded{
     private String mKey;
     @SerializedName(FIELD_ENABLED)
     private boolean mEnabled;
-    @SerializedName(FIELD_VALUE)
-    private String mValue;
+
     @SerializedName(FIELD_TYPE)
     private String mType;
 
 
-    public Urlencoded(){
+    public Formdata(){
 
     }
 
@@ -39,14 +38,6 @@ public class Urlencoded{
 
     public boolean isEnabled() {
         return mEnabled;
-    }
-
-    public void setValue(String value) {
-        mValue = value;
-    }
-
-    public String getValue() {
-        return mValue;
     }
 
     public void setType(String type) {

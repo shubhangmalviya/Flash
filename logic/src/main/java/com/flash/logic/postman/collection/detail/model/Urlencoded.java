@@ -1,9 +1,9 @@
-package com.flash.logic.postman.collection.detail;
+package com.flash.logic.postman.collection.detail.model;
 
 import com.google.gson.annotations.SerializedName;
 
 
-public class Formdatum{
+public class Urlencoded{
 
     private static final String FIELD_KEY = "key";
     private static final String FIELD_ENABLED = "enabled";
@@ -21,7 +21,7 @@ public class Formdatum{
     private String mType;
 
 
-    public Formdatum(){
+    public Urlencoded(){
 
     }
 

@@ -8,4 +8,7 @@ public class FlashMainUI {
     private JSplitPane mFlashSplitPane;
 
 
+    private void createUIComponents() {
+
+    }
 }

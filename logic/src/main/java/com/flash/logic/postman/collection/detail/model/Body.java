@@ -1,4 +1,4 @@
-package com.flash.logic.postman.collection.detail;
+package com.flash.logic.postman.collection.detail.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +15,7 @@ public class Body{
     @SerializedName(FIELD_MODE)
     private String mMode;
     @SerializedName(FIELD_FORMDATA)
-    private Formdatum[] mFormdata;
+    private Formdata[] mFormdata;
 
 
     public Body(){
@@ -38,11 +38,11 @@ public class Body{
         return mMode;
     }
 
-    public void setFormdata(Formdatum[] formdata) {
+    public void setFormdata(Formdata[] formdata) {
         mFormdata = formdata;
     }
 
-    public Formdatum[] getFormdata() {
+    public Formdata[] getFormdata() {
         return mFormdata;
     }
 

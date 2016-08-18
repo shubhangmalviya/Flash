@@ -34,14 +34,4 @@ public class ServiceLayerGenerator {
         frame.pack();
         frame.setVisible(true);
     }
-
-    public void setData(Flash data) {
-    }
-
-    public void getData(Flash data) {
-    }
-
-    public boolean isModified(Flash data) {
-        return false;
-    }
 }

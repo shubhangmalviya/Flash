@@ -1,4 +1,4 @@
-package com.flash.logic.postman.collection.detail;
+package com.flash.logic.postman.collection.detail.model;
 
 import com.google.gson.annotations.SerializedName;
 

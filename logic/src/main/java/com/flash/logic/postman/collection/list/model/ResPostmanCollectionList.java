@@ -1,9 +1,9 @@
-package com.flash.logic.postman.collection.list;
+package com.flash.logic.postman.collection.list.model;
 
 import com.google.gson.annotations.SerializedName;
 
 
-public class ResPostmanCollectionList{
+public class ResPostmanCollectionList {
 
     private static final String FIELD_COLLECTIONS = "collections";
 
