@@ -34,4 +34,8 @@ public class ServiceLayerGenerator {
         frame.pack();
         frame.setVisible(true);
     }
+
+    public JPanel getJPanelMain() {
+        return mJPanelMain;
+    }
 }

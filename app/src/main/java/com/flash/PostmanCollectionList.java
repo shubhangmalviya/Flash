@@ -23,6 +23,10 @@ public class PostmanCollectionList {
         mCollectionList.addListSelectionListener(new PostmanCollectionListener());
     }
 
+    public JPanel getFormPanel() {
+        return mPanel1;
+    }
+
     private static class PostmanCollectionListener implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent e) {
 
