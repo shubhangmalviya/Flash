@@ -1,9 +1,12 @@
 package com.flash;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 
 
 public class FlashMainUI {
@@ -16,6 +19,9 @@ public class FlashMainUI {
     private JPanel mMainContent;
     private JPanel mCreationProgress;
     private JPanel mFlashPanel;
+    private JPanel mLogoImage;
+    private JButton mCancelButton;
+    private JButton mNextButton;
 
 
     public static void main(String[] args) {
@@ -27,6 +33,9 @@ public class FlashMainUI {
     }
 
     public FlashMainUI() {
+
+
+        setLogoImage();
 
         final CardLayout cardLayout = (CardLayout) mMainContent.getLayout();
         cardLayout.addLayoutComponent(getPostmanAPIKeyForm(), "postman_api");
@@ -50,6 +59,17 @@ public class FlashMainUI {
             }
         });
 
+    }
+
+    private void setLogoImage() {
+        try {
+            Image image = ImageIO.read(new File("app/src/assets/flash_logo.png"));
+            JLabel comp = new JLabel(new ImageIcon(image));
+            mLogoImage.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
+            mLogoImage.add(comp, BorderLayout.CENTER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private JPanel getPostmanAPIKeyForm() {
