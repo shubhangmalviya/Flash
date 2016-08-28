@@ -3,8 +3,6 @@ package com.flash;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,8 +18,6 @@ public class FlashMainUI {
     private JPanel mCreationProgress;
     private JPanel mFlashPanel;
     private JPanel mLogoImage;
-    private JButton mCancelButton;
-    private JButton mNextButton;
 
 
     public static void main(String[] args) {
@@ -43,21 +39,10 @@ public class FlashMainUI {
         cardLayout.addLayoutComponent(getProgramingLanguageForm(), "lang");
         cardLayout.addLayoutComponent(getGeneratorConfigurationForm(), "gen");
 
-        mEnterAPIKeyRadioButton.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                cardLayout.show(mMainContent, "postman_api");
-            }
-        });
-        mChooseLanguageRadioButton.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                cardLayout.show(mMainContent, "lang");
-            }
-        });
-        mConfigureRadioButton.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                cardLayout.show(mMainContent, "gen");
-            }
-        });
+        mConfirmationRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "collection_list_api"));
+        mEnterAPIKeyRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "postman_api"));
+        mChooseLanguageRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "lang"));
+        mConfigureRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "gen"));
 
     }
 
