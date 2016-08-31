@@ -1,10 +1,7 @@
 package com.flash;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 
 public class FlashMainUI {
@@ -23,7 +20,8 @@ public class FlashMainUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("FlashMainUI");
         frame.setContentPane(new FlashMainUI().mFlashPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setIconImage(new ImageIcon("app/src/assets/ic_enabled.png").getImage());
         frame.pack();
         frame.setVisible(true);
     }
@@ -39,6 +37,16 @@ public class FlashMainUI {
         cardLayout.addLayoutComponent(getProgramingLanguageForm(), "lang");
         cardLayout.addLayoutComponent(getGeneratorConfigurationForm(), "gen");
 
+        ImageIcon defaultIcon = new ImageIcon("app/src/assets/ic_enabled.png");
+
+        mIntroductionRadioButton.setForeground(Color.BLUE);
+
+        mIntroductionRadioButton.setIcon(defaultIcon);
+        mConfirmationRadioButton.setIcon(defaultIcon);
+        mEnterAPIKeyRadioButton.setIcon(defaultIcon);
+        mChooseLanguageRadioButton.setIcon(defaultIcon);
+        mConfigureRadioButton.setIcon(defaultIcon);
+
         mConfirmationRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "collection_list_api"));
         mEnterAPIKeyRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "postman_api"));
         mChooseLanguageRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "lang"));
@@ -47,14 +55,10 @@ public class FlashMainUI {
     }
 
     private void setLogoImage() {
-        try {
-            Image image = ImageIO.read(new File("app/src/assets/flash_logo.png"));
-            JLabel comp = new JLabel(new ImageIcon(image));
-            mLogoImage.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
-            mLogoImage.add(comp, BorderLayout.CENTER);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        ImageIcon defaultIcon = new ImageIcon("app/src/assets/flash_logo.png");
+        JLabel comp = new JLabel(defaultIcon);
+        mLogoImage.add(comp, BorderLayout.CENTER);
     }
 
     private JPanel getPostmanAPIKeyForm() {
@@ -80,6 +84,4 @@ public class FlashMainUI {
         mMainContent.add(jPanelMain);
         return jPanelMain;
     }
-
-
 }

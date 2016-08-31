@@ -17,7 +17,9 @@
         <children>
           <component id="ce6e3" class="javax.swing.JList" binding="mCollectionList">
             <constraints/>
-            <properties/>
+            <properties>
+              <model/>
+            </properties>
           </component>
         </children>
       </scrollpane>

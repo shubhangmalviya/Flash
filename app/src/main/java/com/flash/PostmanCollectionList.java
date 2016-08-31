@@ -8,30 +8,13 @@ import com.flash.logic.postman.collection.list.model.ResPostmanCollectionList;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.io.IOException;
 
-public class PostmanCollectionList {
+public class PostmanCollectionList implements DisplayPanelLifecycle{
     private JList<String> mCollectionList;
     private JPanel mPanel1;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("PostmanCollectionList");
-        frame.setContentPane(new PostmanCollectionList().mPanel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     public PostmanCollectionList() {
-
-        try {
-            mCollectionList.setCellRenderer(new PostmanCollectionRenderer());
-            getCollectionDetail();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        mPanel1.setSize();
+        mCollectionList.setCellRenderer(new PostmanCollectionRenderer());
         mCollectionList.addListSelectionListener(new PostmanCollectionListener());
     }
 
@@ -39,28 +22,21 @@ public class PostmanCollectionList {
         String apiKey = "e0989dde7ea247c6bb0ba1eeae87a858";
 
         CollectionListingApiRequest apiRequest = new CollectionListingApiRequest();
-        apiRequest.makeRequest(apiKey, new ResponseCallback<ResPostmanCollectionList>() {
-            public void onSuccess(ResPostmanCollectionList data) {
-                DefaultListModel<String> model = new DefaultListModel<>();
-
-                for (int index = 0; index < data.getCollections().length; index ++) {
-                    model.add(index, data.getCollections()[index].getName());
-                }
-
-                mCollectionList.setModel(model);
-            }
-
-            public void onFailure(ErrorResponse errorResponse) {
-                System.out.print(errorResponse.getMessage());
-                if (errorResponse.getThrowable() != null) {
-                    errorResponse.getThrowable().printStackTrace();
-                }
-            }
-        });
+        apiRequest.makeRequest(apiKey, new ResPostmanCollectionListResponseCallback());
     }
 
     public JPanel getFormPanel() {
         return mPanel1;
+    }
+
+    @Override
+    public void onVisible() {
+
+    }
+
+    @Override
+    public void onInvisible() {
+
     }
 
     private static class PostmanCollectionListener implements ListSelectionListener {
@@ -69,33 +45,26 @@ public class PostmanCollectionList {
         }
     }
 
-    private class PostmanCollectionRenderer extends JLabel implements ListCellRenderer<String> {
+    private interface PostmanColectionListItemSelectListener {
+        void onPostmanCollectionSelected(String postmanId);
+    }
 
-        private final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
-        private final Icon mImage;
+    private class ResPostmanCollectionListResponseCallback implements ResponseCallback<ResPostmanCollectionList> {
+        public void onSuccess(ResPostmanCollectionList data) {
+            DefaultListModel<String> model = new DefaultListModel<>();
 
-        public PostmanCollectionRenderer() throws IOException {
-            mImage = new ImageIcon("app/src/assets/postman_icon.png");
-            setOpaque(true);
-            setIconTextGap(12);
-        }
-
-        @Override
-        public Component getListCellRendererComponent(JList<? extends String> list,
-                                                      String value, int index, boolean isSelected, boolean cellHasFocus) {
-
-            setIcon(mImage);
-            setText(value);
-
-            if (isSelected) {
-                setBackground(HIGHLIGHT_COLOR);
-                setForeground(Color.white);
-            } else {
-                setBackground(Color.white);
-                setForeground(Color.black);
+            for (int index = 0; index < data.getCollections().length; index ++) {
+                model.add(index, data.getCollections()[index].getName());
             }
 
-            return this;
+            mCollectionList.setModel(model);
+        }
+
+        public void onFailure(ErrorResponse errorResponse) {
+            System.out.print(errorResponse.getMessage());
+            if (errorResponse.getThrowable() != null) {
+                errorResponse.getThrowable().printStackTrace();
+            }
         }
     }
 }

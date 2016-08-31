@@ -2,7 +2,7 @@ package com.flash;
 
 import javax.swing.*;
 
-public class ServiceLayerGenerator {
+public class ServiceLayerGenerator implements DisplayPanelLifecycle{
 
     private JTextField mTextFieldPathPostmanCollection;
     private JButton mBtnChoosePostmanCollection;
@@ -37,5 +37,15 @@ public class ServiceLayerGenerator {
 
     public JPanel getJPanelMain() {
         return mJPanelMain;
+    }
+
+    @Override
+    public void onVisible() {
+
+    }
+
+    @Override
+    public void onInvisible() {
+
     }
 }
