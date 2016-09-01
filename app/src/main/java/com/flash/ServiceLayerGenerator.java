@@ -22,9 +22,10 @@ public class ServiceLayerGenerator implements DisplayPanelLifecycle{
     private JRadioButton mNoRadioButton1;
     private JRadioButton mYesRadioButton2;
     private JRadioButton mNoRadioButton2;
-    private JTextField mTextField6;
     private JButton mGenerateSourceButton;
     private JPanel mJPanelMain;
+    private JCheckBox mJavaCheckBox;
+    private JCheckBox mSwiftCheckBox;
 
 
     public static void main(String[] args) {

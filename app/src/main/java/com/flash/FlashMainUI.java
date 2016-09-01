@@ -1,5 +1,7 @@
 package com.flash;
 
+import com.flash.steps.*;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,14 +9,15 @@ import java.awt.*;
 public class FlashMainUI {
     private JSplitPane mFlashSplitPane;
     private JRadioButton mIntroductionRadioButton;
-    private JRadioButton mEnterAPIKeyRadioButton;
-    private JRadioButton mChooseLanguageRadioButton;
-    private JRadioButton mConfigureRadioButton;
+    private JRadioButton mCollectionSourceRadioButton;
+    private JRadioButton mCollectionListingRadioButton;
+    private JRadioButton mOutputConfigurationRadioButton;
     private JRadioButton mConfirmationRadioButton;
     private JPanel mMainContent;
     private JPanel mCreationProgress;
     private JPanel mFlashPanel;
     private JPanel mLogoImage;
+    private final StepsManager mStepsManager;
 
 
     public static void main(String[] args) {
@@ -22,66 +25,39 @@ public class FlashMainUI {
         frame.setContentPane(new FlashMainUI().mFlashPanel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setIconImage(new ImageIcon("app/src/assets/ic_enabled.png").getImage());
+        frame.setTitle("Flash IDE");
         frame.pack();
         frame.setVisible(true);
     }
 
     public FlashMainUI() {
-
-
         setLogoImage();
-
         final CardLayout cardLayout = (CardLayout) mMainContent.getLayout();
-        cardLayout.addLayoutComponent(getPostmanAPIKeyForm(), "postman_api");
-        cardLayout.addLayoutComponent(getPostmanCollectionListForm(), "collection_list_api");
-        cardLayout.addLayoutComponent(getProgramingLanguageForm(), "lang");
-        cardLayout.addLayoutComponent(getGeneratorConfigurationForm(), "gen");
 
-        ImageIcon defaultIcon = new ImageIcon("app/src/assets/ic_enabled.png");
+        Step introduction = new IntroductionStep(mMainContent,cardLayout, mIntroductionRadioButton);
+        Step collectionSource = new CollectionSourceStep(mMainContent,cardLayout, mCollectionSourceRadioButton);
+        Step collectionListing = new CollectionListingStep(mMainContent,cardLayout, mCollectionListingRadioButton);
+        Step outputConfiguration = new OutputConfigurationStep(mMainContent,cardLayout, mOutputConfigurationRadioButton);
+        Step confirmationStep = new ConfirmationStep(mMainContent,cardLayout, mConfirmationRadioButton);
 
-        mIntroductionRadioButton.setForeground(Color.BLUE);
+        mStepsManager = new StepsManager();
+        mStepsManager.registerStep(collectionSource);
+        mStepsManager.registerStep(collectionListing);
+        mStepsManager.registerStep(outputConfiguration);
+        mStepsManager.registerStep(confirmationStep);
 
-        mIntroductionRadioButton.setIcon(defaultIcon);
-        mConfirmationRadioButton.setIcon(defaultIcon);
-        mEnterAPIKeyRadioButton.setIcon(defaultIcon);
-        mChooseLanguageRadioButton.setIcon(defaultIcon);
-        mConfigureRadioButton.setIcon(defaultIcon);
+        mStepsManager.resetAllSteps();
 
-        mConfirmationRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "collection_list_api"));
-        mEnterAPIKeyRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "postman_api"));
-        mChooseLanguageRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "lang"));
-        mConfigureRadioButton.addItemListener(e -> cardLayout.show(mMainContent, "gen"));
+        mConfirmationRadioButton.addItemListener(e -> mStepsManager.jumpToStep(confirmationStep));
+        mCollectionSourceRadioButton.addItemListener(e -> mStepsManager.jumpToStep(collectionSource));
+        mCollectionListingRadioButton.addItemListener(e -> mStepsManager.jumpToStep(collectionListing));
+        mOutputConfigurationRadioButton.addItemListener(e -> mStepsManager.jumpToStep(outputConfiguration));
 
     }
 
     private void setLogoImage() {
-
         ImageIcon defaultIcon = new ImageIcon("app/src/assets/flash_logo.png");
         JLabel comp = new JLabel(defaultIcon);
         mLogoImage.add(comp, BorderLayout.CENTER);
-    }
-
-    private JPanel getPostmanAPIKeyForm() {
-        JPanel postmanFormPanel = new PostmanAPIKeyUI().getPostmanFormPanel();
-        mMainContent.add(postmanFormPanel);
-        return postmanFormPanel;
-    }
-
-    private JPanel getPostmanCollectionListForm() {
-        JPanel formPanel = new PostmanCollectionList().getFormPanel();
-        mMainContent.add(formPanel);
-        return formPanel;
-    }
-
-    private JPanel getProgramingLanguageForm() {
-        JPanel mainPanel = new ProgrammingLanguage().getMainPanel();
-        mMainContent.add(mainPanel);
-        return mainPanel;
-    }
-
-    private JPanel getGeneratorConfigurationForm() {
-        JPanel jPanelMain = new ServiceLayerGenerator().getJPanelMain();
-        mMainContent.add(jPanelMain);
-        return jPanelMain;
     }
 }

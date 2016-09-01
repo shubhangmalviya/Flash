@@ -3,10 +3,11 @@ package com.flash;
 import javax.swing.*;
 
 
-public class ProgrammingLanguage implements DisplayPanelLifecycle{
-    private JCheckBox mJavaCheckBox;
-    private JCheckBox mSwiftCheckBox;
+public class Confirmation implements DisplayPanelLifecycle{
     private JPanel mMainPanel;
+    private JLabel mFlashLogo;
+    private JLabel mSourceGenerated;
+
 
     public JPanel getMainPanel() {
         return mMainPanel;
@@ -14,7 +15,7 @@ public class ProgrammingLanguage implements DisplayPanelLifecycle{
 
     @Override
     public void onVisible() {
-
+        mFlashLogo.setIcon(new ImageIcon("app/src/assets/confirmation.png"));
     }
 
     @Override

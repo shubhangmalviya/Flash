@@ -255,16 +255,8 @@
           <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Postman Collection ID"/>
+          <text value="Programming Language"/>
         </properties>
-      </component>
-      <component id="6ae33" class="javax.swing.JTextField" binding="mTextField6" default-binding="true">
-        <constraints>
-          <grid row="9" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-        </constraints>
-        <properties/>
       </component>
       <component id="44f95" class="javax.swing.JButton" binding="mGenerateSourceButton" default-binding="true">
         <constraints>
@@ -274,6 +266,38 @@
           <text value="Generate Source"/>
         </properties>
       </component>
+      <component id="95a7b" class="javax.swing.JCheckBox" binding="mJavaCheckBox" default-binding="true">
+        <constraints>
+          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Java"/>
+        </properties>
+      </component>
+      <component id="2a5d1" class="javax.swing.JCheckBox" binding="mSwiftCheckBox" default-binding="true">
+        <constraints>
+          <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Swift"/>
+        </properties>
+      </component>
     </children>
   </grid>
+  <buttonGroups>
+    <group name="mIncludeHeader">
+      <member id="88e3a"/>
+      <member id="4d485"/>
+    </group>
+    <group name="mIncludeHeaderInRequest">
+      <member id="880cf"/>
+      <member id="35365"/>
+    </group>
+    <group name="mRequestResponseAnnotation">
+      <member id="8c63c"/>
+      <member id="665a3"/>
+      <member id="434e0"/>
+      <member id="4137c"/>
+    </group>
+  </buttonGroups>
 </form>

@@ -37,25 +37,25 @@
                   <text value="Introduction"/>
                 </properties>
               </component>
-              <component id="a21fb" class="javax.swing.JRadioButton" binding="mEnterAPIKeyRadioButton" default-binding="true">
+              <component id="a21fb" class="javax.swing.JRadioButton" binding="mCollectionSourceRadioButton" default-binding="true">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <enabled value="true"/>
-                  <text value="Enter API Key"/>
+                  <text value="Collection Source"/>
                 </properties>
               </component>
-              <component id="28734" class="javax.swing.JRadioButton" binding="mChooseLanguageRadioButton" default-binding="true">
+              <component id="28734" class="javax.swing.JRadioButton" binding="mCollectionListingRadioButton">
                 <constraints>
                   <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <enabled value="true"/>
-                  <text value="Choose Language"/>
+                  <text value="Collection Listing"/>
                 </properties>
               </component>
-              <component id="a1bd2" class="javax.swing.JRadioButton" binding="mConfigureRadioButton" default-binding="true">
+              <component id="a1bd2" class="javax.swing.JRadioButton" binding="mOutputConfigurationRadioButton" default-binding="true">
                 <constraints>
                   <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -64,7 +64,7 @@
                   <text value="Configure"/>
                 </properties>
               </component>
-              <component id="33797" class="javax.swing.JRadioButton" binding="mConfirmationRadioButton" default-binding="true">
+              <component id="33797" class="javax.swing.JRadioButton" binding="mConfirmationRadioButton">
                 <constraints>
                   <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

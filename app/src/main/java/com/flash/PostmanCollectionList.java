@@ -31,7 +31,7 @@ public class PostmanCollectionList implements DisplayPanelLifecycle{
 
     @Override
     public void onVisible() {
-
+        getCollectionDetail();
     }
 
     @Override
