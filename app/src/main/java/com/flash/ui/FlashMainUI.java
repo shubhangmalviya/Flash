@@ -1,5 +1,7 @@
-package com.flash;
+package com.flash.ui;
 
+import com.flash.Step;
+import com.flash.StepsManager;
 import com.flash.steps.*;
 
 import javax.swing.*;

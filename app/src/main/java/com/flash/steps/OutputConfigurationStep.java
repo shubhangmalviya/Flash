@@ -1,7 +1,7 @@
 package com.flash.steps;
 
 import com.flash.DisplayPanel;
-import com.flash.ServiceLayerGenerator;
+import com.flash.ui.OutputConfigurationUI;
 import com.flash.Step;
 
 import javax.swing.*;
@@ -14,14 +14,14 @@ public class OutputConfigurationStep implements Step {
 
     private boolean mIsEnabled;
     private final DisplayPanel mDisplayPanel = DisplayPanel.OUTPUT_CONFIGURATIONS;
-    private ServiceLayerGenerator mServiceLayerGenerator = new ServiceLayerGenerator();
+    private OutputConfigurationUI mOutputConfigurationUI = new OutputConfigurationUI();
 
     public OutputConfigurationStep(JPanel mainPanel, CardLayout cardLayout, JRadioButton outputConfigurationRadioButton) {
         mMainPanel = mainPanel;
         mCardLayout = cardLayout;
         mOutputConfigurationRadioButton = outputConfigurationRadioButton;
 
-        JPanel jPanelMain = mServiceLayerGenerator.getJPanelMain();
+        JPanel jPanelMain = mOutputConfigurationUI.getJPanelMain();
         mainPanel.add(jPanelMain);
         cardLayout.addLayoutComponent(jPanelMain, mDisplayPanel.name());
         outputConfigurationRadioButton.setIcon(new ImageIcon("app/src/assets/ic_enabled.png"));
@@ -49,12 +49,12 @@ public class OutputConfigurationStep implements Step {
     public void makeVisible() {
         mCardLayout.show(mMainPanel, mDisplayPanel.name());
         mOutputConfigurationRadioButton.setForeground(Color.BLUE);
-        mServiceLayerGenerator.onVisible();
+        mOutputConfigurationUI.onVisible();
     }
 
     @Override
     public void makeInvisible() {
         mOutputConfigurationRadioButton.setForeground(Color.BLACK);
-        mServiceLayerGenerator.onInvisible();
+        mOutputConfigurationUI.onInvisible();
     }
 }

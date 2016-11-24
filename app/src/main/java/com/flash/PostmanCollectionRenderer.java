@@ -3,7 +3,7 @@ package com.flash;
 import javax.swing.*;
 import java.awt.*;
 
-class PostmanCollectionRenderer extends JLabel implements ListCellRenderer<String> {
+public class PostmanCollectionRenderer extends JLabel implements ListCellRenderer<String> {
 
     private final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
     private final Icon mImage;

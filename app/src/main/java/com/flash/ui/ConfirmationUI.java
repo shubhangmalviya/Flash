@@ -1,9 +1,11 @@
-package com.flash;
+package com.flash.ui;
+
+import com.flash.DisplayPanelLifecycle;
 
 import javax.swing.*;
 
 
-public class Confirmation implements DisplayPanelLifecycle{
+public class ConfirmationUI implements DisplayPanelLifecycle {
     private JPanel mMainPanel;
     private JLabel mFlashLogo;
     private JLabel mSourceGenerated;

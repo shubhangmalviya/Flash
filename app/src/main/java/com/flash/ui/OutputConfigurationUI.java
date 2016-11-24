@@ -1,8 +1,10 @@
-package com.flash;
+package com.flash.ui;
+
+import com.flash.DisplayPanelLifecycle;
 
 import javax.swing.*;
 
-public class ServiceLayerGenerator implements DisplayPanelLifecycle{
+public class OutputConfigurationUI implements DisplayPanelLifecycle {
 
     private JTextField mTextFieldPathPostmanCollection;
     private JButton mBtnChoosePostmanCollection;
@@ -29,8 +31,8 @@ public class ServiceLayerGenerator implements DisplayPanelLifecycle{
 
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("ServiceLayerGenerator");
-        frame.setContentPane(new ServiceLayerGenerator().mJPanelMain);
+        JFrame frame = new JFrame("OutputConfigurationUI");
+        frame.setContentPane(new OutputConfigurationUI().mJPanelMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

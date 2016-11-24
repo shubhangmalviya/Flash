@@ -1,8 +1,10 @@
-package com.flash;
+package com.flash.ui;
+
+import com.flash.DisplayPanelLifecycle;
 
 import javax.swing.*;
 
-public class PostmanAPIKeyUI implements DisplayPanelLifecycle{
+public class CollectionSourceUI implements DisplayPanelLifecycle {
     private JTextField mPostManApiKeyText;
     private JLabel mPostmanAPIKey;
     private JPanel mPostmanFormPanel;

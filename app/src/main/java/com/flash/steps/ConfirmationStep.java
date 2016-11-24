@@ -1,7 +1,7 @@
 package com.flash.steps;
 
 import com.flash.DisplayPanel;
-import com.flash.Confirmation;
+import com.flash.ui.ConfirmationUI;
 import com.flash.Step;
 
 import javax.swing.*;
@@ -14,14 +14,14 @@ public class ConfirmationStep implements Step {
 
     private boolean mIsEnabled;
     private final DisplayPanel mDisplayPanel = DisplayPanel.CHOOSE_PROGRAMMING_LANGUAGE;
-    private Confirmation mConfirmation = new Confirmation();
+    private ConfirmationUI mConfirmationUI = new ConfirmationUI();
 
     public ConfirmationStep(JPanel mainPanel, CardLayout cardLayout, JRadioButton programmingLanguage) {
         mMainPanel = mainPanel;
         mCardLayout = cardLayout;
         mProgrammingRadioButton = programmingLanguage;
 
-        JPanel mainPanel1 = mConfirmation.getMainPanel();
+        JPanel mainPanel1 = mConfirmationUI.getMainPanel();
         mainPanel.add(mainPanel1);
         cardLayout.addLayoutComponent(mainPanel1, mDisplayPanel.name());
         programmingLanguage.setIcon(new ImageIcon("app/src/assets/ic_enabled.png"));
@@ -48,11 +48,11 @@ public class ConfirmationStep implements Step {
     @Override
     public void makeVisible() {
         mCardLayout.show(mMainPanel, mDisplayPanel.name());
-        mConfirmation.onVisible();
+        mConfirmationUI.onVisible();
     }
 
     @Override
     public void makeInvisible() {
-        mConfirmation.onInvisible();
+        mConfirmationUI.onInvisible();
     }
 }

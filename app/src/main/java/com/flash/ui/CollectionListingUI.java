@@ -1,5 +1,7 @@
-package com.flash;
+package com.flash.ui;
 
+import com.flash.DisplayPanelLifecycle;
+import com.flash.PostmanCollectionRenderer;
 import com.flash.logic.postman.collection.ErrorResponse;
 import com.flash.logic.postman.collection.ResponseCallback;
 import com.flash.logic.postman.collection.list.CollectionListingApiRequest;
@@ -9,11 +11,11 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class PostmanCollectionList implements DisplayPanelLifecycle{
+public class CollectionListingUI implements DisplayPanelLifecycle {
     private JList<String> mCollectionList;
     private JPanel mPanel1;
 
-    public PostmanCollectionList() {
+    public CollectionListingUI() {
         mCollectionList.setCellRenderer(new PostmanCollectionRenderer());
         mCollectionList.addListSelectionListener(new PostmanCollectionListener());
     }

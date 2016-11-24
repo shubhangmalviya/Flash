@@ -1,7 +1,7 @@
 package com.flash.steps;
 
 import com.flash.DisplayPanel;
-import com.flash.PostmanCollectionList;
+import com.flash.ui.CollectionListingUI;
 import com.flash.Step;
 
 import javax.swing.*;
@@ -15,14 +15,14 @@ public class CollectionListingStep implements Step {
 
     private boolean mIsEnabled;
     private final DisplayPanel mDisplayPanel = DisplayPanel.POSTMAN_COLLECTIONS_LISTING;
-    private PostmanCollectionList mPostmanCollectionList = new PostmanCollectionList();
+    private CollectionListingUI mCollectionListingUI = new CollectionListingUI();
 
     public CollectionListingStep(JPanel mainPanel, CardLayout cardLayout, JRadioButton collectionListingRadioButton) {
         mMainPanel = mainPanel;
         mCardLayout = cardLayout;
         mCollectionListingRadioButton = collectionListingRadioButton;
 
-        JPanel formPanel = mPostmanCollectionList.getFormPanel();
+        JPanel formPanel = mCollectionListingUI.getFormPanel();
         mainPanel.add(formPanel);
         cardLayout.addLayoutComponent(formPanel, mDisplayPanel.name());
         collectionListingRadioButton.setIcon(new ImageIcon("app/src/assets/ic_enabled.png"));
@@ -49,11 +49,11 @@ public class CollectionListingStep implements Step {
     @Override
     public void makeVisible() {
         mCardLayout.show(mMainPanel, mDisplayPanel.name());
-        mPostmanCollectionList.onVisible();
+        mCollectionListingUI.onVisible();
     }
 
     @Override
     public void makeInvisible() {
-        mPostmanCollectionList.onInvisible();
+        mCollectionListingUI.onInvisible();
     }
 }

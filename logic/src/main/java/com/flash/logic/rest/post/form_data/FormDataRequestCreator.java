@@ -78,7 +78,7 @@ public class FormDataRequestCreator {
             if (TYPE_TEXT.equals(formdata.getType())) {
                 formDataBuilderCreator.addBuilderMethod(formdata.getKey());
             }else if (TYPE_FILE.equals(formdata.getType())) {
-                // TODO handle the file type.
+                formDataBuilderCreator.addFileBuilderMethod(formdata.getKey());
             }
         }
 

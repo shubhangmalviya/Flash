@@ -4,19 +4,25 @@ import com.flash.logic.utils.NameUtils;
 import com.squareup.javapoet.*;
 
 import javax.lang.model.element.Modifier;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 public class FormDataBuilderCreator {
 
-    public static final String REQUEST_BODY_MAP = "mRequestBodyMap";
+    public static final String NAME_REQUEST_BODY_MAP = "mRequestBodyMap";
+    public static final String NAME_FILE_PART_LIST = "mFilePartList";
+
     private TypeSpec.Builder mClassBuilder;
+    private Set<String> mIdentifiers = new HashSet<String>();
+    private MethodSpec.Builder mConstructorBuilder;
+    private boolean mIsFileBuilderAdded = false;
+    private final ClassName mBuilderClass;
 
     public FormDataBuilderCreator(String packageName) {
 
-        ClassName builder = ClassName.get(packageName, "Builder");
+        mBuilderClass = ClassName.get(packageName, "Builder");
 
-        mClassBuilder = TypeSpec.classBuilder(builder)
+        mClassBuilder = TypeSpec.classBuilder(mBuilderClass)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
 
         createFields();
@@ -26,21 +32,24 @@ public class FormDataBuilderCreator {
     private void createFields() {
         // create map
         ClassName map = ClassName.get(Map.class);
+
         ClassName hashMap = ClassName.get(HashMap.class);
         ClassName string = ClassName.get(String.class);
         ClassName requestBody = ClassName.get("okhttp3", "RequestBody");
+
+
         TypeName mapOfStringandRequestBody = ParameterizedTypeName.get(map, string, requestBody);
 
-        FieldSpec builderClassFields
-                = FieldSpec.builder(mapOfStringandRequestBody, REQUEST_BODY_MAP, Modifier.PRIVATE, Modifier.FINAL)
+        FieldSpec fieldMapRequestBody
+                = FieldSpec.builder(mapOfStringandRequestBody, NAME_REQUEST_BODY_MAP, Modifier.PRIVATE, Modifier.FINAL)
                 .build();
 
-        MethodSpec constructor = MethodSpec.constructorBuilder()
+        mConstructorBuilder = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
-                .addStatement("$N = new $T<>()", REQUEST_BODY_MAP, hashMap)
-                .build();
+                .addStatement("$N = new $T<>()", NAME_REQUEST_BODY_MAP, hashMap)
+                ;
 
-        mClassBuilder.addMethod(constructor).addField(builderClassFields);
+       mClassBuilder.addField(fieldMapRequestBody);
     }
 
     public TypeSpec getAndEndClassBuilder() {
@@ -48,23 +57,31 @@ public class FormDataBuilderCreator {
     }
 
     public void addBuilderMethod(String identifier) {
+        if (mIdentifiers.contains(identifier)) {
+            return;
+        }
+
+        mIdentifiers.add(identifier);
+
         NameUtils nameUtils = new NameUtils();
         String constantFieldName = "PART_" + nameUtils.getCapitalised(identifier);
         String methodName = nameUtils.getCamelCase(identifier, true);
         String parameterName = nameUtils.getCamelCase(identifier, false);
 
+
         ClassName requestBody = ClassName.get("okhttp3", "RequestBody");
         ClassName mediaType = ClassName.get("okhttp3", "MediaType");
 
         FieldSpec constantField
-                = FieldSpec.builder(String.class, constantFieldName, Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+                = FieldSpec.builder(String.class, constantFieldName, Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
                 .initializer("$S", identifier).build();
 
         MethodSpec builderMethod = MethodSpec.methodBuilder("with" + methodName)
+                .returns(mBuilderClass)
                 .addParameter(String.class, parameterName)
                 .addModifiers(Modifier.PUBLIC)
-                // TODO include the api utils class for the request body creation.
-                .addStatement("$N.put($N, $T.create($T.parse(\"text/plain\"), $N))", REQUEST_BODY_MAP, constantFieldName, requestBody, mediaType, parameterName)
+                .addStatement("$N.put($N, $T.create($T.parse(\"text/plain\"), $N))", NAME_REQUEST_BODY_MAP, constantFieldName, requestBody, mediaType, parameterName)
+                .addStatement("return this")
                 .build();
 
         mClassBuilder.addField(constantField).addMethod(builderMethod);
@@ -72,10 +89,60 @@ public class FormDataBuilderCreator {
     }
 
     public void addFileBuilderMethod(String identifier) {
-        // TODO create file body method.
+        if (mIdentifiers.contains(identifier)) {
+            return;
+        }
+
+        mIdentifiers.add(identifier);
+
+        if (!mIsFileBuilderAdded) {
+            ClassName arrayList = ClassName.get(ArrayList.class);
+            ClassName list = ClassName.get(List.class);
+            ClassName multipartBodyPart = ClassName.get("okhttp3.MultipartBody", "MultipartBody.Part");
+            TypeName listOfMultipartBodyPart = ParameterizedTypeName.get(list, multipartBodyPart);
+            FieldSpec fieldListMultipartRequestBody
+                    = FieldSpec.builder(listOfMultipartBodyPart, NAME_FILE_PART_LIST, Modifier.PRIVATE, Modifier.FINAL)
+                    .build();
+
+            mClassBuilder.addField(fieldListMultipartRequestBody);
+            mConstructorBuilder.addStatement("$N = new $T<>()", NAME_FILE_PART_LIST, arrayList);
+            mIsFileBuilderAdded = true;
+        }
+
+        NameUtils nameUtils = new NameUtils();
+        String constantFieldName = "PART_" + nameUtils.getCapitalised(identifier);
+        String methodName = nameUtils.getCamelCase(identifier, true);
+        String pathParameterName = nameUtils.getCamelCase(identifier, false);
+        String parameterUploadCallback = "uploadCallbacks";
+        String variableFile = "file";
+        String variableRequestBody = "requestBody";
+
+        ClassName uploadCallbackClassName = ClassName.get("com.libapi", "UploadCallbacks");
+        ClassName file = ClassName.get(File.class);
+        ClassName requestBody = ClassName.get("com.libapi", "ProgressRequestBody");
+        ClassName multipartBody = ClassName.get("okhttp3", "MultipartBody");
+
+        FieldSpec constantField
+                = FieldSpec.builder(String.class, constantFieldName, Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+                .initializer("$S", identifier).build();
+
+        MethodSpec builderMethod = MethodSpec.methodBuilder("add" + methodName)
+                .returns(mBuilderClass)
+                .addParameter(String.class, pathParameterName)
+                .addParameter(uploadCallbackClassName, parameterUploadCallback)
+                .addModifiers(Modifier.PUBLIC)
+                .addStatement("$T $N = $T($N)", file, variableFile, file, pathParameterName)
+                .addStatement("$T $N = new $T($N, $N)", requestBody, variableRequestBody, requestBody, file, parameterUploadCallback)
+                .addStatement("$N.add($T.Part.createFormData($N, $N.getName, $N))", NAME_FILE_PART_LIST, multipartBody, constantField, variableFile, variableRequestBody)
+                .addStatement("return this")
+                .build();
+
+        mClassBuilder.addField(constantField).addMethod(builderMethod);
     }
 
     public void createBuildsMethod(TypeName typeName) {
+        mClassBuilder.addMethod(mConstructorBuilder.build());
+
         MethodSpec buildMethod = MethodSpec.methodBuilder("build")
                 .returns(typeName)
                 .addModifiers(Modifier.PUBLIC)

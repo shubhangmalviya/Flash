@@ -1,7 +1,7 @@
 package com.flash.steps;
 
 import com.flash.DisplayPanel;
-import com.flash.PostmanAPIKeyUI;
+import com.flash.ui.CollectionSourceUI;
 import com.flash.Step;
 
 import javax.swing.*;
@@ -14,14 +14,14 @@ public class CollectionSourceStep implements Step {
 
     private boolean mIsEnabled;
     private final DisplayPanel mDisplayPanel = DisplayPanel.POSTMAN_COLLECTION_SOURCE;
-    private PostmanAPIKeyUI mPostmanAPIKeyUI = new PostmanAPIKeyUI();
+    private CollectionSourceUI mCollectionSourceUI = new CollectionSourceUI();
 
     public CollectionSourceStep(JPanel mainPanel, CardLayout cardLayout, JRadioButton introductionRadioButton) {
         mMainPanel = mainPanel;
         mCardLayout = cardLayout;
         mIntroductionRadioButton = introductionRadioButton;
 
-        JPanel postmanFormPanel = mPostmanAPIKeyUI.getPostmanFormPanel();
+        JPanel postmanFormPanel = mCollectionSourceUI.getPostmanFormPanel();
         mainPanel.add(postmanFormPanel);
         cardLayout.addLayoutComponent(postmanFormPanel, mDisplayPanel.name());
         introductionRadioButton.setIcon(new ImageIcon("app/src/assets/ic_enabled.png"));
@@ -48,11 +48,11 @@ public class CollectionSourceStep implements Step {
     @Override
     public void makeVisible() {
         mCardLayout.show(mMainPanel, mDisplayPanel.name());
-        mPostmanAPIKeyUI.onVisible();
+        mCollectionSourceUI.onVisible();
     }
 
     @Override
     public void makeInvisible() {
-        mPostmanAPIKeyUI.onInvisible();
+        mCollectionSourceUI.onInvisible();
     }
 }
