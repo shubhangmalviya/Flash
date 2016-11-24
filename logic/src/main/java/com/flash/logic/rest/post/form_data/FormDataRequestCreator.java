@@ -72,7 +72,7 @@ public class FormDataRequestCreator {
     }
 
     private TypeSpec createBuilder() {
-        FormDataBuilderCreator formDataBuilderCreator = new FormDataBuilderCreator(mPackageName);
+        FormDataBuilderCreator formDataBuilderCreator = new FormDataBuilderCreator();
 
         for (Formdata formdata :  mFormdatas) {
             if (TYPE_TEXT.equals(formdata.getType())) {

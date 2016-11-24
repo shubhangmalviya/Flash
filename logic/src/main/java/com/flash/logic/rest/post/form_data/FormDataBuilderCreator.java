@@ -18,9 +18,9 @@ public class FormDataBuilderCreator {
     private boolean mIsFileBuilderAdded = false;
     private final ClassName mBuilderClass;
 
-    public FormDataBuilderCreator(String packageName) {
+    public FormDataBuilderCreator() {
 
-        mBuilderClass = ClassName.get(packageName, "Builder");
+        mBuilderClass = ClassName.get("", "Builder");
 
         mClassBuilder = TypeSpec.classBuilder(mBuilderClass)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
@@ -77,7 +77,7 @@ public class FormDataBuilderCreator {
                 .initializer("$S", identifier).build();
 
         MethodSpec builderMethod = MethodSpec.methodBuilder("with" + methodName)
-                .returns(mBuilderClass)
+                .returns(mBuilderClass.topLevelClassName())
                 .addParameter(String.class, parameterName)
                 .addModifiers(Modifier.PUBLIC)
                 .addStatement("$N.put($N, $T.create($T.parse(\"text/plain\"), $N))", NAME_REQUEST_BODY_MAP, constantFieldName, requestBody, mediaType, parameterName)
@@ -89,6 +89,9 @@ public class FormDataBuilderCreator {
     }
 
     public void addFileBuilderMethod(String identifier) {
+
+        identifier = identifier.contains("[]") ? identifier.replace("[]","") : identifier;
+
         if (mIdentifiers.contains(identifier)) {
             return;
         }
@@ -127,13 +130,13 @@ public class FormDataBuilderCreator {
                 .initializer("$S", identifier).build();
 
         MethodSpec builderMethod = MethodSpec.methodBuilder("add" + methodName)
-                .returns(mBuilderClass)
+                .returns(mBuilderClass.topLevelClassName())
                 .addParameter(String.class, pathParameterName)
                 .addParameter(uploadCallbackClassName, parameterUploadCallback)
                 .addModifiers(Modifier.PUBLIC)
-                .addStatement("$T $N = $T($N)", file, variableFile, file, pathParameterName)
-                .addStatement("$T $N = new $T($N, $N)", requestBody, variableRequestBody, requestBody, file, parameterUploadCallback)
-                .addStatement("$N.add($T.Part.createFormData($N, $N.getName, $N))", NAME_FILE_PART_LIST, multipartBody, constantField, variableFile, variableRequestBody)
+                .addStatement("$T $N = new $T($N)", file, variableFile, file, pathParameterName)
+                .addStatement("$T $N = new $T($N, $N)", requestBody, variableRequestBody, requestBody, variableFile, parameterUploadCallback)
+                .addStatement("$N.add($T.Part.createFormData($N, $N.getName(), $N))", NAME_FILE_PART_LIST, multipartBody, constantField, variableFile, variableRequestBody)
                 .addStatement("return this")
                 .build();
 
