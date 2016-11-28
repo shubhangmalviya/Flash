@@ -57,16 +57,19 @@ public class FormDataBuilderCreator {
     }
 
     public void addBuilderMethod(String identifier) {
-        if (mIdentifiers.contains(identifier)) {
+
+        NameUtils nameUtils = new NameUtils();
+        String javaIdentifierName = nameUtils.getLegalJavaItentifier(identifier);
+
+        if (mIdentifiers.contains(javaIdentifierName)) {
             return;
         }
 
-        mIdentifiers.add(identifier);
+        mIdentifiers.add(javaIdentifierName);
 
-        NameUtils nameUtils = new NameUtils();
-        String constantFieldName = "PART_" + nameUtils.getCapitalised(identifier);
-        String methodName = nameUtils.getCamelCase(identifier, true);
-        String parameterName = nameUtils.getCamelCase(identifier, false);
+        String constantFieldName = "PART_" + nameUtils.getCapitalised(javaIdentifierName);
+        String methodName = nameUtils.getCamelCase(javaIdentifierName, true);
+        String parameterName = nameUtils.getCamelCase(javaIdentifierName, false);
 
 
         ClassName requestBody = ClassName.get("okhttp3", "RequestBody");
@@ -90,18 +93,19 @@ public class FormDataBuilderCreator {
 
     public void addFileBuilderMethod(String identifier) {
 
-        identifier = identifier.contains("[]") ? identifier.replace("[]","") : identifier;
+        NameUtils nameUtils = new NameUtils();
+        String javaIdentifierName = nameUtils.getLegalJavaItentifier(identifier);
 
-        if (mIdentifiers.contains(identifier)) {
+        if (mIdentifiers.contains(javaIdentifierName)) {
             return;
         }
 
-        mIdentifiers.add(identifier);
+        mIdentifiers.add(javaIdentifierName);
 
         if (!mIsFileBuilderAdded) {
             ClassName arrayList = ClassName.get(ArrayList.class);
             ClassName list = ClassName.get(List.class);
-            ClassName multipartBodyPart = ClassName.get("okhttp3.MultipartBody", "MultipartBody.Part");
+            ClassName multipartBodyPart = ClassName.get("okhttp3.MultipartBody", "Part");
             TypeName listOfMultipartBodyPart = ParameterizedTypeName.get(list, multipartBodyPart);
             FieldSpec fieldListMultipartRequestBody
                     = FieldSpec.builder(listOfMultipartBodyPart, NAME_FILE_PART_LIST, Modifier.PRIVATE, Modifier.FINAL)
@@ -112,10 +116,9 @@ public class FormDataBuilderCreator {
             mIsFileBuilderAdded = true;
         }
 
-        NameUtils nameUtils = new NameUtils();
-        String constantFieldName = "PART_" + nameUtils.getCapitalised(identifier);
-        String methodName = nameUtils.getCamelCase(identifier, true);
-        String pathParameterName = nameUtils.getCamelCase(identifier, false);
+        String constantFieldName = "PART_" + nameUtils.getCapitalised(javaIdentifierName);
+        String methodName = nameUtils.getCamelCase(javaIdentifierName, true);
+        String pathParameterName = nameUtils.getCamelCase(javaIdentifierName, false);
         String parameterUploadCallback = "uploadCallbacks";
         String variableFile = "file";
         String variableRequestBody = "requestBody";

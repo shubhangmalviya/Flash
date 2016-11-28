@@ -39,4 +39,25 @@ public class NameUtils {
         camelCase.append(word);
     }
 
+    public String getLegalJavaItentifier(String name) {
+
+        String legalIdentifier = "";
+
+        for (int i = 0; i < name.length(); i ++) {
+            char c = name.charAt(i);
+
+            if (i != 0 && Character.isJavaIdentifierPart(c)) {
+                legalIdentifier += c;
+            }else if (i == 0 && Character.isJavaIdentifierStart(c)) {
+                legalIdentifier += c;
+            }
+        }
+
+        if (legalIdentifier.length() == 0) {
+            legalIdentifier = "_";
+        }
+
+        return legalIdentifier;
+    }
+
 }
