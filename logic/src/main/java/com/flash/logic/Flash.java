@@ -6,7 +6,7 @@ import com.flash.logic.postman.collection.detail.DetailApiRequest;
 import com.flash.logic.postman.collection.detail.model.Formdata;
 import com.flash.logic.postman.collection.detail.model.Item;
 import com.flash.logic.postman.collection.detail.model.ResCollectionDetail;
-import com.flash.logic.rest.post.form_data.FormDataRequestCreator;
+import com.flash.logic.rest.post.form_data.FormDataRequestModelCreator;
 
 import java.io.IOException;
 
@@ -41,10 +41,10 @@ public class Flash {
         name = name.replace(" ", "");
         String packageName = "com.daffodilsw.servicestemplate.post.formdata.sample";
 
-        FormDataRequestCreator formDataRequestCreator = new FormDataRequestCreator(formdatas);
-        formDataRequestCreator.createClass(packageName, "Req" + name);
+        FormDataRequestModelCreator formDataRequestModelCreator = new FormDataRequestModelCreator(formdatas);
+        formDataRequestModelCreator.createClass(packageName, "Req" + name);
         try {
-            formDataRequestCreator.createFile("/Users/shubhang/Documents/Projects/Android/ServicesTemplate/app/src/main/java/");
+            formDataRequestModelCreator.createFile("/Users/shubhang/Documents/Projects/Android/ServicesTemplate/app/src/main/java/");
         } catch (IOException e) {
             e.printStackTrace();
         }

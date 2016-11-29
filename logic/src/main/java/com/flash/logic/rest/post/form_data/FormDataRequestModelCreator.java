@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class FormDataRequestCreator {
+public class FormDataRequestModelCreator {
 
     private static final String REQUEST_BODY_MAP = "mRequestBodyMap";
     private static final String TYPE_TEXT = "text";
@@ -24,7 +24,7 @@ public class FormDataRequestCreator {
     private TypeName mMapOfStringAndRequestBodyType = ParameterizedTypeName.get(mMapClass, mStringClass, mRequestBodyClass);
     private ClassName mClassName;
 
-    public FormDataRequestCreator(Formdata[] formdatas) {
+    public FormDataRequestModelCreator(Formdata[] formdatas) {
         mFormdatas = formdatas;
     }
 
@@ -39,7 +39,7 @@ public class FormDataRequestCreator {
         MethodSpec constructor = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PRIVATE)
                 .addParameter(builderClass, parameterRequestBuilder)
-                .addStatement("$N = $N.$N", REQUEST_BODY_MAP, parameterRequestBuilder, FormDataRequestCreator.REQUEST_BODY_MAP)
+                .addStatement("$N = $N.$N", REQUEST_BODY_MAP, parameterRequestBuilder, FormDataRequestModelCreator.REQUEST_BODY_MAP)
                 .build();
 
         mFormDataRequestClassBuilder = TypeSpec.classBuilder(mClassName)
