@@ -15,7 +15,7 @@ public class Flash {
     public static void main(String[] args) throws IOException {
 
         String apiKey = "e0989dde7ea247c6bb0ba1eeae87a858";
-        String collectionId = "11fe9412-886c-796a-e6d8-5389759b9b3c";
+        String collectionId = "42d1c7ad-718e-3389-ad70-ebe5ab790e22";
 
         DetailApiRequest apiRequest = new DetailApiRequest();
         apiRequest.makeRequest(collectionId, apiKey, new ResponseCallback<ResCollectionDetail>() {
