@@ -1,5 +1,7 @@
 package com.flash.logic.rest.post.form_data;
 
+import com.flash.logic.utils.NameUtils;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 
@@ -12,18 +14,28 @@ public class RetrofitInterfaceCreator {
     private TypeSpec.Builder mServiceInterface;
     private String mPackageName;
 
-    public void generateImports() {
-
-    }
-
-    public void createMembers() {
-
-    }
-
-    public void createInterface(String packageName, String interfaceName) {
-        mPackageName = packageName;
+    public RetrofitInterfaceCreator(String interfaceName, String packageName) {
         mServiceInterface = TypeSpec.interfaceBuilder(interfaceName).addModifiers(Modifier.PUBLIC);
+        mPackageName = packageName;
+    }
 
+    public void addRequest(String requestPath) {
+        NameUtils nameUtils = new NameUtils();
+        String javaIdentifierName = nameUtils.getLegalJavaIdentifier(requestPath);
+        String constantFieldName = "PATH_" + nameUtils.getCapitalised(javaIdentifierName);
+        String methodName = nameUtils.getCamelCase(javaIdentifierName, true, '/');
+
+        generateField(requestPath, constantFieldName);
+    }
+
+    private void generateField(String path, String constantFieldName) {
+
+        FieldSpec mapField
+                = FieldSpec.builder(String.class, constantFieldName)
+                .initializer("$S", path)
+                .build();
+
+        mServiceInterface.addField(mapField);
     }
 
     public void createFile(String destinationFolder) throws IOException{

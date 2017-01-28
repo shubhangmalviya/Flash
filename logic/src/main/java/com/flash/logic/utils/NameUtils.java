@@ -9,11 +9,13 @@ public class NameUtils {
     }
 
     /**
-     * user_id = userId, UserId
+     * user_id = userId, UserId.
+     * user/auth/login = userAuthLogin, UserAuthLogin.
      * @param name
+     * @param separator the separator to remove
      * @return
      */
-    public String getCamelCase(String name, boolean capsFirst) {
+    public String getCamelCase(String name, boolean capsFirst, char separator) {
 
         if (name == null) {
             return null;
@@ -25,12 +27,12 @@ public class NameUtils {
         int previousIndex = -1;
         do {
             int fromIndex = previousIndex + 1;
-            nextIndex = name.indexOf('_', fromIndex);
+            nextIndex = name.indexOf(separator, fromIndex);
             extractWord(name, capsFirst, camelCase, fromIndex, nextIndex == -1 ? name.length() : nextIndex);
             previousIndex = nextIndex;
         } while (nextIndex != -1);
 
-        return camelCase.toString();
+        return getLegalJavaIdentifier(camelCase.toString());
     }
 
     private void extractWord(String name, boolean capsFirst, StringBuilder camelCase, int fromIndex, int length) {
@@ -39,7 +41,7 @@ public class NameUtils {
         camelCase.append(word);
     }
 
-    public String getLegalJavaItentifier(String name) {
+    public String getLegalJavaIdentifier(String name) {
 
         String legalIdentifier = "";
 

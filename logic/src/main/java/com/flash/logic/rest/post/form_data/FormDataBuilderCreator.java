@@ -59,7 +59,7 @@ public class FormDataBuilderCreator {
     public void addBuilderMethod(String identifier) {
 
         NameUtils nameUtils = new NameUtils();
-        String javaIdentifierName = nameUtils.getLegalJavaItentifier(identifier);
+        String javaIdentifierName = nameUtils.getLegalJavaIdentifier(identifier);
 
         if (mIdentifiers.contains(javaIdentifierName)) {
             return;
@@ -68,8 +68,8 @@ public class FormDataBuilderCreator {
         mIdentifiers.add(javaIdentifierName);
 
         String constantFieldName = "PART_" + nameUtils.getCapitalised(javaIdentifierName);
-        String methodName = nameUtils.getCamelCase(javaIdentifierName, true);
-        String parameterName = nameUtils.getCamelCase(javaIdentifierName, false);
+        String methodName = nameUtils.getCamelCase(javaIdentifierName, true, '_');
+        String parameterName = nameUtils.getCamelCase(javaIdentifierName, false, '_');
 
 
         ClassName requestBody = ClassName.get("okhttp3", "RequestBody");
@@ -94,7 +94,7 @@ public class FormDataBuilderCreator {
     public void addFileBuilderMethod(String identifier) {
 
         NameUtils nameUtils = new NameUtils();
-        String javaIdentifierName = nameUtils.getLegalJavaItentifier(identifier);
+        String javaIdentifierName = nameUtils.getLegalJavaIdentifier(identifier);
 
         if (mIdentifiers.contains(javaIdentifierName)) {
             return;
@@ -117,8 +117,8 @@ public class FormDataBuilderCreator {
         }
 
         String constantFieldName = "PART_" + nameUtils.getCapitalised(javaIdentifierName);
-        String methodName = nameUtils.getCamelCase(javaIdentifierName, true);
-        String pathParameterName = nameUtils.getCamelCase(javaIdentifierName, false);
+        String methodName = nameUtils.getCamelCase(javaIdentifierName, true, '_');
+        String pathParameterName = nameUtils.getCamelCase(javaIdentifierName, false, '_');
         String parameterUploadCallback = "uploadCallbacks";
         String variableFile = "file";
         String variableRequestBody = "requestBody";
