@@ -1,16 +1,18 @@
 package com.flash.logic.rest.post.form_data;
 
+import com.flash.logic.rest.ServiceMethodGenerator;
 import com.flash.logic.utils.NameUtils;
 import com.squareup.javapoet.*;
 
 import java.util.List;
 import java.util.Map;
 
-public class PostFormDataRequestMethodGenerator {
+import static com.flash.logic.utils.RetrofitAnnotation.getRetrofitAnnotation;
 
-    private MethodSpec.Builder mMethodSpec;
+public class PostFormDataMethodGenerator extends ServiceMethodGenerator {
 
-    public PostFormDataRequestMethodGenerator(String methodName, String pathFieldName) {
+    public PostFormDataMethodGenerator(String methodName, String pathFieldName) {
+        super(methodName, pathFieldName);
 
         // multipart annotation
         AnnotationSpec multipartAnnotation = getRetrofitAnnotation("Multipart", null);
@@ -19,33 +21,11 @@ public class PostFormDataRequestMethodGenerator {
         AnnotationSpec postAnnotation = getRetrofitAnnotation("POST", pathFieldName);
 
         // create method with the name and with the specified annotation.
-        mMethodSpec = MethodSpec.methodBuilder(methodName)
-                        .addAnnotation(multipartAnnotation)
-                        .addAnnotation(postAnnotation);
+        mMethodSpec.addAnnotation(multipartAnnotation)
+                   .addAnnotation(postAnnotation);
     }
 
-    public PostFormDataRequestMethodGenerator setReturnType(TypeName returnType) {
-        ClassName retrofitCall = ClassName.get("retrofit2", "Call");
-        TypeName methodReturnType = ParameterizedTypeName.get(retrofitCall, returnType);
-
-        mMethodSpec.returns(methodReturnType);
-        return this;
-    }
-
-    private AnnotationSpec getRetrofitAnnotation(String name, String value) {
-
-        ClassName className = ClassName.get("retrofit2.http", name);
-        AnnotationSpec.Builder builder = AnnotationSpec.builder(className);
-
-        if (value != null) {
-            builder.addMember("value", "$L", value);
-        }
-
-        return builder.build();
-
-    }
-
-    public PostFormDataRequestMethodGenerator addFileListParameter() {
+    public PostFormDataMethodGenerator addFileListParameter() {
         AnnotationSpec partAnnotation = getRetrofitAnnotation("Part", null);
         ClassName list = ClassName.get(List.class);
         ClassName multipartBodyPart = ClassName.get("okhttp3.MultipartBody", "Part");
@@ -59,7 +39,7 @@ public class PostFormDataRequestMethodGenerator {
         return this;
     }
 
-    public PostFormDataRequestMethodGenerator addFileParameter() {
+    public PostFormDataMethodGenerator addFileParameter() {
         AnnotationSpec partAnnotation = getRetrofitAnnotation("Part", null);
         ClassName multipartBodyPart = ClassName.get("okhttp3.MultipartBody", "Part");
 
@@ -71,7 +51,7 @@ public class PostFormDataRequestMethodGenerator {
         return this;
     }
 
-    public PostFormDataRequestMethodGenerator addRequestBodyParameter(String requestBodyName) {
+    public PostFormDataMethodGenerator addRequestBodyParameter(String requestBodyName) {
         NameUtils nameUtils = new NameUtils();
         AnnotationSpec partAnnotation = getRetrofitAnnotation("Part", requestBodyName);
         String javaIdentifier = nameUtils.getLegalJavaIdentifier(requestBodyName);
@@ -86,7 +66,7 @@ public class PostFormDataRequestMethodGenerator {
         return this;
     }
 
-    public PostFormDataRequestMethodGenerator addRequestBodyMapParameter() {
+    public PostFormDataMethodGenerator addRequestBodyMapParameter() {
         AnnotationSpec partMap = getRetrofitAnnotation("PartMap", null);
 
         ClassName map = ClassName.get(Map.class);
@@ -102,10 +82,4 @@ public class PostFormDataRequestMethodGenerator {
 
         return this;
     }
-
-
-    public MethodSpec build() {
-        return mMethodSpec.build();
-    }
-
 }

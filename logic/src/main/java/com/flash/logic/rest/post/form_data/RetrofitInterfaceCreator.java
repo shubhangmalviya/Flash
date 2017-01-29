@@ -3,6 +3,7 @@ package com.flash.logic.rest.post.form_data;
 import com.flash.logic.utils.NameUtils;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import javax.lang.model.element.Modifier;
@@ -19,13 +20,17 @@ public class RetrofitInterfaceCreator {
         mPackageName = packageName;
     }
 
-    public void addRequest(String requestPath) {
+    public void addConstantRequestPath(String requestPath) {
         NameUtils nameUtils = new NameUtils();
         String javaIdentifierName = nameUtils.getLegalJavaIdentifier(requestPath);
         String constantFieldName = "PATH_" + nameUtils.getCapitalised(javaIdentifierName);
         String methodName = nameUtils.getCamelCase(javaIdentifierName, true, '/');
 
         generateField(requestPath, constantFieldName);
+    }
+
+    public void addMemberFunction(MethodSpec methodSpec) {
+        mServiceInterface.addMethod(methodSpec);
     }
 
     private void generateField(String path, String constantFieldName) {
