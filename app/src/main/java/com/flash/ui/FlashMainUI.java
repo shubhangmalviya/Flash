@@ -19,6 +19,8 @@ public class FlashMainUI {
     private JPanel mCreationProgress;
     private JPanel mFlashPanel;
     private JPanel mLogoImage;
+    private JButton previousButton;
+    private JButton nextButton;
     private final StepsManager mStepsManager;
 
 
