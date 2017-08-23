@@ -7,6 +7,7 @@ public class Body{
 
     private static final String FIELD_URLENCODED = "urlencoded";
     private static final String FIELD_MODE = "mode";
+    private static final String FIELD_RAW = "raw";
     private static final String FIELD_FORMDATA = "formdata";
 
 
@@ -14,6 +15,8 @@ public class Body{
     private Urlencoded[] mUrlencodeds;
     @SerializedName(FIELD_MODE)
     private String mMode;
+    @SerializedName(FIELD_RAW)
+    private String mRaw;
     @SerializedName(FIELD_FORMDATA)
     private Formdata[] mFormdata;
 
@@ -36,6 +39,14 @@ public class Body{
 
     public String getMode() {
         return mMode;
+    }
+
+    public void setRaw(String raw) {
+        mRaw = raw;
+    }
+
+    public String getRaw() {
+        return mRaw;
     }
 
     public void setFormdata(Formdata[] formdata) {

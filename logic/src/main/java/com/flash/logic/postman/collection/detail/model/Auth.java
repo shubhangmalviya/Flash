@@ -1,13 +1,13 @@
 package com.flash.logic.postman.collection.detail.model;
 
 
-public class Variable{
+public class Auth{
 
 
 
 
 
-    public Variable(){
+    public Auth(){
 
     }
 

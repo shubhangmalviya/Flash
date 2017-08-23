@@ -19,8 +19,8 @@ public class FlashMainUI {
     private JPanel mCreationProgress;
     private JPanel mFlashPanel;
     private JPanel mLogoImage;
-    private JButton previousButton;
-    private JButton nextButton;
+    private JButton mPreviousButton;
+    private JButton mNextButton;
     private final StepsManager mStepsManager;
 
 
@@ -56,6 +56,9 @@ public class FlashMainUI {
         mCollectionSourceRadioButton.addItemListener(e -> mStepsManager.jumpToStep(collectionSource));
         mCollectionListingRadioButton.addItemListener(e -> mStepsManager.jumpToStep(collectionListing));
         mOutputConfigurationRadioButton.addItemListener(e -> mStepsManager.jumpToStep(outputConfiguration));
+
+        mPreviousButton.addActionListener(a -> mStepsManager.moveToPrevious());
+        mNextButton.addActionListener(a -> mStepsManager.moveToNext());
 
     }
 

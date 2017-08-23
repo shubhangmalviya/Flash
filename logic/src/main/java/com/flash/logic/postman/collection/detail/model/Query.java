@@ -3,25 +3,25 @@ package com.flash.logic.postman.collection.detail.model;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Formdata {
+public class Query{
 
     private static final String FIELD_KEY = "key";
+    private static final String FIELD_EQUALS = "equals";
     private static final String FIELD_DESCRIPTION = "description";
     private static final String FIELD_VALUE = "value";
-    private static final String FIELD_TYPE = "type";
 
 
     @SerializedName(FIELD_KEY)
     private String mKey;
+    @SerializedName(FIELD_EQUALS)
+    private boolean mEqual;
     @SerializedName(FIELD_DESCRIPTION)
     private String mDescription;
     @SerializedName(FIELD_VALUE)
     private String mValue;
-    @SerializedName(FIELD_TYPE)
-    private String mType;
 
 
-    public Formdata(){
+    public Query(){
 
     }
 
@@ -31,6 +31,14 @@ public class Formdata {
 
     public String getKey() {
         return mKey;
+    }
+
+    public void setEqual(boolean equal) {
+        mEqual = equal;
+    }
+
+    public boolean isEqual() {
+        return mEqual;
     }
 
     public void setDescription(String description) {
@@ -47,14 +55,6 @@ public class Formdata {
 
     public String getValue() {
         return mValue;
-    }
-
-    public void setType(String type) {
-        mType = type;
-    }
-
-    public String getType() {
-        return mType;
     }
 
 

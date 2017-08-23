@@ -1,0 +1,15 @@
+Requirement
+A. There should be a way to sync and get the updated postman collection.
+B. There should be a way to select the multiple folder or multiple files.
+
+1. Fetch all the collections
+2. Fire parallel requests to fetch the details of all the collections.
+3. Construct the display hierarchy of the collection tree.
+4. A single folder should be selectable on the UI.
+5. A single file should be selectable in the UI.
+6. Multiple files should be selectable on the UI.
+7. Multiple folders should be selectable in the UI.
+
+
+1. Need to get all the environment of the postman key.
+2. Currently the app does not handle the disable for all keys.

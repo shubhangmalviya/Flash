@@ -6,15 +6,15 @@ import com.google.gson.annotations.SerializedName;
 public class Urlencoded{
 
     private static final String FIELD_KEY = "key";
-    private static final String FIELD_ENABLED = "enabled";
+    private static final String FIELD_DESCRIPTION = "description";
     private static final String FIELD_VALUE = "value";
     private static final String FIELD_TYPE = "type";
 
 
     @SerializedName(FIELD_KEY)
     private String mKey;
-    @SerializedName(FIELD_ENABLED)
-    private boolean mEnabled;
+    @SerializedName(FIELD_DESCRIPTION)
+    private String mDescription;
     @SerializedName(FIELD_VALUE)
     private String mValue;
     @SerializedName(FIELD_TYPE)
@@ -33,12 +33,12 @@ public class Urlencoded{
         return mKey;
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
-    public boolean isEnabled() {
-        return mEnabled;
+    public String getDescription() {
+        return mDescription;
     }
 
     public void setValue(String value) {

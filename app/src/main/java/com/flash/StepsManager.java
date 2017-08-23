@@ -26,6 +26,7 @@ public class StepsManager {
             mSteps.get(mCurrentIndex).makeInvisible();
             mSteps.get(mCurrentIndex).disable();
             mCurrentIndex --;
+            mSteps.get(mCurrentIndex).enable();
             mSteps.get(mCurrentIndex).makeVisible();
 
         }

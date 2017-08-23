@@ -3,7 +3,7 @@ package com.flash.logic.postman.collection.list.model;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Collection{
+public class CollectionInfo {
 
     private static final String FIELD_UID = "uid";
     private static final String FIELD_OWNER = "owner";
@@ -21,7 +21,7 @@ public class Collection{
     private String mName;
 
 
-    public Collection(){
+    public CollectionInfo(){
 
     }
 
@@ -59,8 +59,8 @@ public class Collection{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof Collection){
-            return ((Collection) obj).getId() == mId;
+        if(obj instanceof CollectionInfo){
+            return ((CollectionInfo) obj).getId() == mId;
         }
         return false;
     }

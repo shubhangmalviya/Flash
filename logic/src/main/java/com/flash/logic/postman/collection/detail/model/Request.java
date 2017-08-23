@@ -15,7 +15,7 @@ public class Request{
     @SerializedName(FIELD_BODY)
     private Body mBody;
     @SerializedName(FIELD_URL)
-    private String mUrl;
+    private Url mUrl;
     @SerializedName(FIELD_HEADER)
     private Header[] mHeaders;
     @SerializedName(FIELD_DESCRIPTION)
@@ -36,11 +36,11 @@ public class Request{
         return mBody;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(Url url) {
         mUrl = url;
     }
 
-    public String getUrl() {
+    public Url getUrl() {
         return mUrl;
     }
 

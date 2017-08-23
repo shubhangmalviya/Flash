@@ -9,19 +9,19 @@ public class ResPostmanCollectionList {
 
 
     @SerializedName(FIELD_COLLECTIONS)
-    private Collection[] mCollections;
+    private CollectionInfo[] mCollectionInfos;
 
 
     public ResPostmanCollectionList(){
 
     }
 
-    public void setCollections(Collection[] collections) {
-        mCollections = collections;
+    public void setCollections(CollectionInfo[] collectionInfos) {
+        mCollectionInfos = collectionInfos;
     }
 
-    public Collection[] getCollections() {
-        return mCollections;
+    public CollectionInfo[] getCollections() {
+        return mCollectionInfos;
     }
 
 
