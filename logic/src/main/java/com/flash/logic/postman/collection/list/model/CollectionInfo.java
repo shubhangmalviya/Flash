@@ -60,7 +60,7 @@ public class CollectionInfo {
     @Override
     public boolean equals(Object obj){
         if(obj instanceof CollectionInfo){
-            return ((CollectionInfo) obj).getId() == mId;
+            return ((CollectionInfo) obj).getUid() == mUid;
         }
         return false;
     }

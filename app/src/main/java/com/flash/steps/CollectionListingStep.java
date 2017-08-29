@@ -1,7 +1,6 @@
 package com.flash.steps;
 
 import com.flash.DisplayPanel;
-import com.flash.ui.CollectionListingUI;
 import com.flash.Step;
 import com.flash.ui.CollectionTree;
 

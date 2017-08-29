@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CollectionMapper {
-    private Map<CollectionInfo, Collection[]> mCollectionMap = new HashMap<>();
+    private Map<CollectionInfo, Collection> mCollectionMap = new HashMap<>();
 
     protected void setCollectionInfo(CollectionInfo[] infos) {
         if (infos == null || infos.length == 0) {
@@ -19,7 +19,7 @@ public class CollectionMapper {
         }
     }
 
-    protected void setCollection(CollectionInfo collectionInfo, Collection[] collections) {
+    protected void setCollection(CollectionInfo collectionInfo, Collection collections) {
 
         if (!mCollectionMap.containsKey(collectionInfo)) {
             throw new IllegalArgumentException("The CollectionInfo is not found");

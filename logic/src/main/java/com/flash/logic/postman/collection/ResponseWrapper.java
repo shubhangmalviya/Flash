@@ -1,5 +1,6 @@
 package com.flash.logic.postman.collection;
 
+import com.google.gson.JsonSyntaxException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +35,8 @@ public class ResponseWrapper<T> implements Callback<T> {
             notifyErrorResult(new ErrorResponse("Error making api Request", UNKNOWN, throwable));
         }else if (throwable instanceof UnknownHostException) {
             notifyErrorResult(new ErrorResponse("Please make sure you are connected to the internet", UNKNOWN, throwable));
+        }else if (throwable instanceof JsonSyntaxException){
+            notifyErrorResult(new ErrorResponse("Response Parse Error", UNKNOWN, throwable));
         }else {
             notifyErrorResult(new ErrorResponse("Unknown Error", UNKNOWN, throwable));
         }

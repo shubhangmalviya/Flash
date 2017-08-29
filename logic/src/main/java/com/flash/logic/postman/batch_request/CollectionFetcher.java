@@ -2,7 +2,10 @@ package com.flash.logic.postman.batch_request;
 
 import com.flash.logic.postman.collection.ErrorResponse;
 import com.flash.logic.postman.collection.ResponseCallback;
+import com.flash.logic.postman.collection.detail.DetailApiRequest;
+import com.flash.logic.postman.collection.detail.model.ResCollectionDetail;
 import com.flash.logic.postman.collection.list.CollectionListingApiRequest;
+import com.flash.logic.postman.collection.list.model.CollectionInfo;
 import com.flash.logic.postman.collection.list.model.ResPostmanCollectionList;
 
 public class CollectionFetcher {
@@ -10,6 +13,7 @@ public class CollectionFetcher {
     private String mApiKey;
     private CollectionMapper mCollectionMapper;
     private FetchUpdatesListener mListener;
+    private int mTotalTaskScheduled = 0;
 
     public CollectionFetcher(String apiKey) {
         if (apiKey == null || apiKey.isEmpty()) {
@@ -25,10 +29,32 @@ public class CollectionFetcher {
      * @param listener the subscriber of the updates.
      */
     public void fetch(FetchUpdatesListener listener) {
+        mTotalTaskScheduled = 0;
         mListener = listener;
         publishProgress(listener);
         CollectionListingApiRequest apiRequest = new CollectionListingApiRequest();
         apiRequest.makeRequest(mApiKey, new CollectionListingResponse());
+    }
+
+    public void fetchCollectionDetails(CollectionInfo[] collectionInfos) {
+        if (collectionInfos == null) {
+            return;
+        }
+
+        Task head = null;
+
+        for (CollectionInfo collectionInfo : collectionInfos) {
+            DetailApiRequest detailApiRequest = new DetailApiRequest(collectionInfo.getUid(), mApiKey);
+            Task<CollectionInfo, ResCollectionDetail> task = new Task<>(detailApiRequest, collectionInfo);
+            task.setTaskCompleteListener(new CollectionDetailFetcher());
+            task.setNextTask(head);
+            mTotalTaskScheduled++;
+            head = task;
+        }
+
+        if (head != null) {
+            head.performTask();
+        }
     }
 
     /**
@@ -69,11 +95,41 @@ public class CollectionFetcher {
             }
 
             mCollectionMapper.setCollectionInfo(data.getCollections());
+
+            fetchCollectionDetails(data.getCollections());
         }
 
         @Override
         public void onFailure(ErrorResponse errorResponse) {
             publishFailure(mListener, errorResponse.getMessage());
+        }
+    }
+
+    private class CollectionDetailFetcher implements TaskCompleteListener<CollectionInfo,ResCollectionDetail> {
+
+        @Override
+        public void onTaskSuccess(CollectionInfo collectionInfo, ResCollectionDetail data) {
+            mCollectionMapper.setCollection(collectionInfo, data.getCollection());
+
+            publishTosubscriber();
+        }
+
+        private void publishTosubscriber() {
+            if (--mTotalTaskScheduled <= 0) {
+                if (mListener != null) {
+                    mListener.onComplete(mCollectionMapper);
+                }
+            }else {
+                if (mListener != null) {
+                    mListener.onUpdate("Remaining Tasks= " + mTotalTaskScheduled);
+                }
+            }
+        }
+
+        @Override
+        public boolean onTaskFailure(CollectionInfo collectionInfo, String message) {
+            publishTosubscriber();
+            return true;
         }
     }
 }
