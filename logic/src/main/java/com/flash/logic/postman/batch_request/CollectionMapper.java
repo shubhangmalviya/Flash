@@ -28,4 +28,7 @@ public class CollectionMapper {
         mCollectionMap.put(collectionInfo, collections);
     }
 
+    public Map<CollectionInfo, Collection> getCollectionMap() {
+        return mCollectionMap;
+    }
 }

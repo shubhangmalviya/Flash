@@ -47,14 +47,15 @@ public class CollectionFetcher {
             DetailApiRequest detailApiRequest = new DetailApiRequest(collectionInfo.getUid(), mApiKey);
             Task<CollectionInfo, ResCollectionDetail> task = new Task<>(detailApiRequest, collectionInfo);
             task.setTaskCompleteListener(new CollectionDetailFetcher());
-            task.setNextTask(head);
+            //task.setNextTask(head);
             mTotalTaskScheduled++;
             head = task;
+            task.performTask(); // trying to parallelize
         }
 
-        if (head != null) {
+        /*if (head != null) {
             head.performTask();
-        }
+        }*/
     }
 
     /**
@@ -115,7 +116,8 @@ public class CollectionFetcher {
         }
 
         private void publishTosubscriber() {
-            if (--mTotalTaskScheduled <= 0) {
+            // The below lines need to be modified.
+            if (--mTotalTaskScheduled == 0) {
                 if (mListener != null) {
                     mListener.onComplete(mCollectionMapper);
                 }

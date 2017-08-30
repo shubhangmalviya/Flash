@@ -90,5 +90,8 @@ public class Item{
         return mDescription;
     }
 
-
+    @Override
+    public String toString() {
+        return  mName ;
+    }
 }

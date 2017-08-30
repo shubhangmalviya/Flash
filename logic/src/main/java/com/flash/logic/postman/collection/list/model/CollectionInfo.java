@@ -70,5 +70,8 @@ public class CollectionInfo {
         return mId.hashCode();
     }
 
-
+    @Override
+    public String toString() {
+        return  mName;
+    }
 }
