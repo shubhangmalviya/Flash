@@ -6,7 +6,6 @@ import com.flash.logic.postman.batch_request.CollectionFetcher;
 import com.flash.logic.postman.batch_request.CollectionMapper;
 import com.flash.logic.postman.batch_request.FetchUpdatesListener;
 import com.flash.logic.postman.collection.detail.model.Collection;
-import com.flash.logic.postman.collection.detail.model.Item;
 import com.flash.logic.postman.collection.list.model.CollectionInfo;
 
 import javax.swing.*;
@@ -24,43 +23,22 @@ public class CollectionTree implements DisplayPanelLifecycle{
     private JProgressBar mProgressBar;
     private JScrollPane mScrollbar;
     private CardLayout mCardLayout;
+    private boolean mIsVisible;
+    private CollectionFetcher mCollectionFetcher;
 
+
+    public CollectionTree() {
+        mCollectionFetcher = new CollectionFetcher(API_KEY);
+    }
 
     @Override
     public void onVisible() {
+        mIsVisible = true;
         mCardLayout = (CardLayout) mContainerPanel.getLayout();
         mCardLayout.show(mContainerPanel, PROGRESS);
         mProgressBar.setIndeterminate(true);
-
-        new CollectionFetcher(API_KEY).fetch(new FetchUpdatesListener() {
-            @Override
-            public void onUpdate(String state) {
-                System.out.print(state);
-            }
-
-            @Override
-            public void onComplete(CollectionMapper collectionMapper) {
-
-                DefaultMutableTreeNode parent = new DefaultMutableTreeNode();
-
-                for (Map.Entry<CollectionInfo, Collection> collectionEntry : collectionMapper.getCollectionMap().entrySet()) {
-
-                    CollectionTreeNodeCreator treeNodeCreator = new CollectionTreeNodeCreator(collectionEntry.getKey(), collectionEntry.getValue());
-                    DefaultMutableTreeNode node = treeNodeCreator.create();
-                    parent.add(node);
-                }
-
-                mCollectionTree.setModel(new DefaultTreeModel(parent));
-//                mCollectionTree.setCellRenderer(new CollectionCellRenderer());
-
-                mCardLayout.show(mContainerPanel, CONTENT);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                System.out.print(message);
-            }
-        });
+        mProgressBar.setStringPainted(true);
+        mCollectionFetcher.fetch(new CollectionFetchListener());
     }
 
 
@@ -70,30 +48,38 @@ public class CollectionTree implements DisplayPanelLifecycle{
 
     @Override
     public void onInvisible() {
-
+        mIsVisible = false;
     }
 
-    private class CollectionCellRenderer extends DefaultTreeCellRenderer {
+    private class CollectionFetchListener implements FetchUpdatesListener {
         @Override
-        public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                      boolean selected, boolean expanded,
-                                                      boolean leaf, int row, boolean hasFocus) {
+        public void onUpdate(String state) {
+            mProgressBar.setString(state);
+        }
 
-            Component component = super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+        @Override
+        public void onComplete(CollectionMapper collectionMapper) {
 
-            String name = "";
+            DefaultMutableTreeNode parent = new DefaultMutableTreeNode("Collections");
 
-            Object model = ((DefaultMutableTreeNode) value).getUserObject();
+            for (Map.Entry<CollectionInfo, Collection> collectionEntry : collectionMapper.getCollectionMap().entrySet()) {
 
-            if (model instanceof CollectionInfo) {
-                name = ((CollectionInfo) model).getName();
-            }else if (model instanceof Item) {
-                name = ((Item) model).getName();
+                CollectionTreeNodeCreator treeNodeCreator = new CollectionTreeNodeCreator(collectionEntry.getKey(), collectionEntry.getValue());
+                DefaultMutableTreeNode node = treeNodeCreator.create();
+                parent.add(node);
             }
 
-            component.setName(name);
+            DefaultTreeModel treeModel = new DefaultTreeModel(parent);
+            treeModel.setAsksAllowsChildren(true);
 
-            return component;
+
+            mCollectionTree.setModel(new DefaultTreeModel(parent));
+            mCardLayout.show(mContainerPanel, CONTENT);
+        }
+
+        @Override
+        public void onFailure(String message) {
+            System.out.print(message);
         }
     }
 }
