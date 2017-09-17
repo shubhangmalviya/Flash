@@ -40,7 +40,7 @@ public class CollectionTree implements DisplayPanelLifecycle{
         mProgressBar.setStringPainted(true);
         mCollectionFetcher.fetch(new CollectionFetchListener());
         mCollectionTree.addTreeSelectionListener(e -> {
-            System.out.print("Selected Object " + mCollectionTree.getLastSelectedPathComponent().toString());
+//            System.out.print("Selected Object " + mCollectionTree.getLastSelectedPathComponent().toString());
         });
     }
 

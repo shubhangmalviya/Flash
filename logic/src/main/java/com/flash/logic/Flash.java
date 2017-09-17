@@ -15,7 +15,7 @@ public class Flash {
     public static void main(String[] args) throws IOException {
 
         String apiKey = "e0989dde7ea247c6bb0ba1eeae87a858";
-        String collectionId = "42d1c7ad-718e-3389-ad70-ebe5ab790e22";
+        String collectionId = "640271-558a0312-96a0-3a60-e90e-b95441968b7f";
 
         DetailApiRequest apiRequest = new DetailApiRequest();
         apiRequest.makeRequest(collectionId, apiKey, new ResponseCallback<ResCollectionDetail>() {
@@ -44,7 +44,7 @@ public class Flash {
         FormDataRequestModelCreator formDataRequestModelCreator = new FormDataRequestModelCreator(formdatas);
         formDataRequestModelCreator.createClass(packageName, "Req" + name);
         try {
-            formDataRequestModelCreator.createFile("/Users/shubhang/Documents/Projects/Android/ServicesTemplate/app/src/main/java/");
+            formDataRequestModelCreator.createFile("/Users/daffomac-14/Documents/Projects/ServicesTemplate/app/src/main/java/com/daffodilsw/servicestemplate/test");
         } catch (IOException e) {
             e.printStackTrace();
         }
